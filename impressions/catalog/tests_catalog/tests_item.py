@@ -5,6 +5,7 @@ from django.core import validators
 
 class TestItem(TestCase):
     fixtures = ["catalog.json"]
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -24,10 +25,10 @@ class TestItem(TestCase):
     def test_item_create(self):
         item_count = Item.objects.count()
 
-        item = Item.objects.create(name="товар", category = self.category)
+        item = Item.objects.create(name="товар", category=self.category)
         item.tags.set([self.tag])
 
-        self.assertEqual(Item.objects.count(), item_count+1)
+        self.assertEqual(Item.objects.count(), item_count + 1)
 
     def test_item_create_error(self):
         item_count = Item.objects.count()
