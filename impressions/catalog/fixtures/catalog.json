@@ -1,0 +1,57 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Категория 1"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Категория 2"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Категория 3"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 1,
+    "fields": {
+        "name": "Тег 1"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 2,
+    "fields": {
+        "name": "Тег 2"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 3,
+    "fields": {
+        "name": "Тег 3"
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 1,
+    "fields": {
+        "name": "Айфон товар",
+        "is_published": false,
+        "category": 1,
+        "tags": [
+            2,
+            3
+        ]
+    }
+}
+]
