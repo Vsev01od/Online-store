@@ -19,4 +19,5 @@ jobs:
         run: black --check .
 
       - name: Run Django tests
+        working-directory: ./impressions
         run: python manage.py test
