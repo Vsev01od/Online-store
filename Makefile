@@ -1,11 +1,15 @@
 run:
-	python impressions/manage.py runserver
+	cd impressions && python manage.py runserver
 
 mig:
-	python impressions/manage.py migrate
+	cd impressions && python manage.py migrate
 
 mm:
-	python impressions/manage.py makemigrations
+	cd impressions && python manage.py makemigrations
 
 su:
-	python manage.py createsuperuser
+	cd impressions && python manage.py createsuperuser
+
+test:
+	cd impressions && python manage.py test
+	black .

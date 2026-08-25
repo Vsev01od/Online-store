@@ -2,9 +2,10 @@ from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 from catalog.validators import validators_item
+from base_model.models import BaseModelIsPublished
 
 
-class Category(models.Model):
+class Category(BaseModelIsPublished):
     name = models.CharField("Название", unique=True)
 
     slug = models.CharField(
@@ -21,7 +22,7 @@ class Category(models.Model):
         verbose_name_plural = "Категории"
 
 
-class Tag(models.Model):
+class Tag(BaseModelIsPublished):
     name = models.CharField(
         "Имя",
         validators=[
@@ -46,7 +47,7 @@ class Tag(models.Model):
         verbose_name_plural = "Теги"
 
 
-class Item(models.Model):
+class Item(BaseModelIsPublished):
     name = models.CharField(
         "Имя",
         validators=[
@@ -54,8 +55,6 @@ class Item(models.Model):
         ],
         help_text="Имя должнобыть больше, чем из 2х букв",
     )
-
-    is_published = models.BooleanField(default=False)
 
     text = models.TextField(
         "Описание",
