@@ -1,0 +1,708 @@
+/* =========================================================
+   DJANGO ADMIN — DARK MINIMAL
+   ========================================================= */
+
+:root {
+    --bg: #111214;
+    --surface: #181a1e;
+    --surface-2: #1d2025;
+    --surface-3: #22252b;
+
+    --border: #2a2d34;
+    --border-light: #32353d;
+
+    --text: #f1f2f4;
+    --text-secondary: #a5a8b0;
+    --text-muted: #70747e;
+
+    --accent: #8b7cf6;
+    --accent-hover: #9b8df8;
+
+    --danger: #ef6262;
+    --success: #58c98a;
+
+    --radius: 10px;
+}
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+html,
+body {
+    background: var(--bg) !important;
+}
+
+body {
+    color: var(--text) !important;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+#header {
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 28px;
+
+    background: var(--surface) !important;
+
+    border-bottom: 1px solid var(--border);
+
+    box-shadow: none !important;
+}
+
+
+#branding h1 {
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: 650;
+
+    letter-spacing: -0.02em;
+}
+
+
+#branding h1 a {
+    color: var(--text) !important;
+
+    text-decoration: none;
+}
+
+
+#user-tools {
+    color: var(--text-secondary) !important;
+
+    font-size: 13px;
+}
+
+
+#user-tools a {
+    color: var(--text) !important;
+
+    text-decoration: none;
+}
+
+
+#user-tools a:hover {
+    color: var(--accent) !important;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+#content {
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding: 32px;
+}
+
+
+#content-main {
+    width: 100%;
+}
+
+
+/* =========================================================
+   BREADCRUMBS
+   ========================================================= */
+
+div.breadcrumbs {
+    background: transparent !important;
+
+    color: var(--text-muted) !important;
+
+    padding: 0 0 22px 0;
+
+    font-size: 13px;
+}
+
+
+div.breadcrumbs a {
+    color: var(--text-secondary) !important;
+
+    text-decoration: none;
+}
+
+
+div.breadcrumbs a:hover {
+    color: var(--accent) !important;
+}
+
+
+/* =========================================================
+   HEADINGS
+   ========================================================= */
+
+h1 {
+    color: var(--text) !important;
+
+    font-size: 27px;
+
+    font-weight: 650;
+
+    letter-spacing: -0.03em;
+
+    margin-bottom: 24px;
+}
+
+
+h2 {
+    color: var(--text) !important;
+
+    font-weight: 600;
+}
+
+
+h3 {
+    color: var(--text-secondary) !important;
+}
+
+
+/* =========================================================
+   MODULES / CARDS
+   ========================================================= */
+
+.module,
+.inline-group {
+    background: var(--surface) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: var(--radius);
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+    overflow: hidden;
+
+    margin-bottom: 22px;
+}
+
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: var(--surface-2) !important;
+
+    color: var(--text) !important;
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    padding: 15px 18px;
+}
+
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+#changelist table {
+    width: 100%;
+
+    border: none !important;
+
+    border-collapse: collapse;
+}
+
+
+#changelist thead th {
+    background: var(--surface-2) !important;
+
+    color: var(--text-muted) !important;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.06em;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+#changelist thead th a {
+    color: var(--text-muted) !important;
+}
+
+
+#changelist tbody tr {
+    background: var(--surface) !important;
+
+    transition:
+        background 0.12s ease,
+        box-shadow 0.12s ease;
+}
+
+
+#changelist tbody tr:hover {
+    background: var(--surface-2) !important;
+}
+
+
+#changelist tbody td,
+#changelist tbody th {
+    padding: 15px 17px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+#changelist tbody tr:last-child td,
+#changelist tbody tr:last-child th {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+    color: var(--accent);
+}
+
+
+#changelist a {
+    color: var(--text) !important;
+
+    font-weight: 500;
+
+    text-decoration: none;
+}
+
+
+#changelist a:hover {
+    color: var(--accent) !important;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+#toolbar {
+    background: transparent !important;
+
+    border: none !important;
+
+    padding: 0 0 18px 0;
+}
+
+
+#toolbar form {
+    display: flex;
+
+    gap: 8px;
+}
+
+
+#searchbar {
+    background: var(--surface) !important;
+
+    color: var(--text) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: 8px !important;
+
+    padding: 10px 12px;
+}
+
+
+#searchbar::placeholder {
+    color: var(--text-muted);
+}
+
+
+#searchbar:focus {
+    border-color: var(--accent) !important;
+
+    box-shadow: 0 0 0 3px rgba(139, 124, 246, 0.12) !important;
+
+    outline: none;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+input,
+textarea,
+select {
+    box-sizing: border-box;
+
+    background: var(--surface-2) !important;
+
+    color: var(--text) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: 8px !important;
+
+    padding: 9px 11px;
+}
+
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-muted);
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none !important;
+
+    border-color: var(--accent) !important;
+
+    box-shadow:
+        0 0 0 3px rgba(139, 124, 246, 0.12) !important;
+}
+
+
+/* =========================================================
+   SELECT
+   ========================================================= */
+
+select {
+    cursor: pointer;
+}
+
+
+select option {
+    background: var(--surface-2);
+
+    color: var(--text);
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input {
+    background: var(--accent) !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+
+    border-radius: 8px;
+
+    padding: 9px 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        transform 0.1s ease;
+}
+
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background: var(--accent-hover) !important;
+}
+
+
+.button:active,
+input[type="submit"]:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================================================
+   OBJECT TOOLS
+   ========================================================= */
+
+.object-tools {
+    margin-bottom: 18px;
+}
+
+
+.object-tools a {
+    background: var(--accent) !important;
+
+    color: white !important;
+
+    border-radius: 8px !important;
+
+    padding: 9px 14px !important;
+
+    font-weight: 600;
+
+    box-shadow: none !important;
+}
+
+
+.object-tools a:hover {
+    background: var(--accent-hover) !important;
+}
+
+
+/* =========================================================
+   FILTERS
+   ========================================================= */
+
+#changelist-filter {
+    background: var(--surface) !important;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    overflow: hidden;
+}
+
+
+#changelist-filter h2 {
+    background: var(--surface-2) !important;
+
+    color: var(--text) !important;
+
+    border-bottom: 1px solid var(--border);
+
+    padding: 15px;
+}
+
+
+#changelist-filter h3 {
+    color: var(--text-muted) !important;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.06em;
+}
+
+
+#changelist-filter li {
+    padding: 3px 0;
+}
+
+
+#changelist-filter a {
+    color: var(--text-secondary) !important;
+
+    text-decoration: none;
+}
+
+
+#changelist-filter a:hover {
+    color: var(--text) !important;
+}
+
+
+#changelist-filter li.selected a {
+    color: var(--accent) !important;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   FORM ROWS
+   ========================================================= */
+
+.form-row {
+    background: var(--surface) !important;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.form-row:last-child {
+    border-bottom: none;
+}
+
+
+label {
+    color: var(--text-secondary) !important;
+
+    font-weight: 500;
+}
+
+
+.help,
+.helptext {
+    color: var(--text-muted) !important;
+}
+
+
+/* =========================================================
+   CHECKBOXES
+   ========================================================= */
+
+input[type="checkbox"] {
+    accent-color: var(--accent);
+
+    width: 16px;
+
+    height: 16px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.paginator {
+    background: var(--surface) !important;
+
+    color: var(--text-secondary) !important;
+
+    border-top: 1px solid var(--border);
+
+    padding: 15px;
+}
+
+
+.paginator a {
+    color: var(--accent) !important;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.messagelist li {
+    background: var(--surface-2) !important;
+
+    color: var(--text) !important;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    margin-bottom: 10px;
+
+    padding: 12px 15px;
+}
+
+
+/* =========================================================
+   DELETE
+   ========================================================= */
+
+.deletelink {
+    background: var(--danger) !important;
+
+    color: white !important;
+
+    border-radius: 8px !important;
+}
+
+
+.deletelink:hover {
+    background: #f27676 !important;
+}
+
+
+/* =========================================================
+   CHANGE FORM
+   ========================================================= */
+
+.submit-row {
+    background: var(--surface) !important;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    padding: 15px;
+
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+#content-related .module {
+    background: var(--surface) !important;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+#footer {
+    background: transparent !important;
+
+    color: var(--text-muted);
+
+    padding: 30px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+
+    height: 8px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: #30333a;
+
+    border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3b3e47;
+}
