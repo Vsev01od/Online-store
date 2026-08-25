@@ -5,10 +5,7 @@ from catalog.validators import validators_item
 
 
 class Category(models.Model):
-    name = models.CharField(
-        "Название",
-        unique=True
-    )
+    name = models.CharField("Название", unique=True)
 
     slug = models.CharField(
         "Слаг",
