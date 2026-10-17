@@ -1,6 +1,7 @@
 import shutil
 import tempfile
 from datetime import timedelta
+from decimal import Decimal
 
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -10,6 +11,8 @@ from django.test import TestCase, override_settings
 from catalog.models import Category, Item, ItemImage, ItemInt, Tag
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp()
+
+PRICE = Decimal("100.00")
 
 # Минимальная валидная картинка 1x1 (GIF)
 GIF_BYTES = (
@@ -80,6 +83,16 @@ class NamedSlugModelTestsMixin:
         self.assertNotEqual(a.slug, "")
         self.assertNotEqual(a.slug, b.slug)
 
+    def test_str_returns_first_15_characters(self):
+        """Строковое представление длинного названия обрезается до 15 символов."""
+        obj = self.model.objects.create(name="A" * 40)
+        self.assertEqual(str(obj), "A" * 15)
+
+    def test_str_short_name_is_unchanged(self):
+        """Короткое название в строковом представлении не меняется."""
+        obj = self.model.objects.create(name="Short")
+        self.assertEqual(str(obj), "Short")
+
 
 class CategoryModelTests(NamedSlugModelTestsMixin, TestCase):
     model = Category
@@ -107,7 +120,7 @@ class ItemModelTests(TestCase):
         super().tearDownClass()
 
     def make_item(self, **kwargs):
-        data = {"name": "Phone", "category": self.category}
+        data = {"name": "Phone", "category": self.category, "price": PRICE}
         data.update(kwargs)
         return Item.objects.create(**data)
 
@@ -120,6 +133,13 @@ class ItemModelTests(TestCase):
         """Слаг товара, заданный вручную, не перезаписывается."""
         item = self.make_item(slug="my-slug")
         self.assertEqual(item.slug, "my-slug")
+
+    def test_cyrillic_name_gets_non_empty_slug(self):
+        """Русские названия товаров получают непустые и разные слаги."""
+        a = self.make_item(name="Телефон")
+        b = self.make_item(name="Ноутбук")
+        self.assertNotEqual(a.slug, "")
+        self.assertNotEqual(a.slug, b.slug)
 
     def test_name_is_unique(self):
         """Нельзя создать два товара с одинаковым названием."""
@@ -137,6 +157,30 @@ class ItemModelTests(TestCase):
         """Короткое название в строковом представлении не меняется."""
         item = self.make_item(name="Short")
         self.assertEqual(str(item), "Short")
+
+    def test_price_is_saved_with_two_decimals(self):
+        """Цена сохраняется и читается из базы без потери копеек."""
+        item = self.make_item(price=Decimal("99.99"))
+        item.refresh_from_db()
+        self.assertEqual(item.price, Decimal("99.99"))
+
+    def test_price_is_required(self):
+        """Товар без цены не проходит валидацию."""
+        item = Item(name="No price", category=self.category)
+        with self.assertRaises(ValidationError) as ctx:
+            item.full_clean()
+        self.assertIn("price", ctx.exception.message_dict)
+
+    def test_price_too_many_digits_is_invalid(self):
+        """Цена больше 8 цифр до запятой не проходит валидацию."""
+        item = Item(
+            name="Expensive",
+            category=self.category,
+            price=Decimal("123456789.00"),
+        )
+        with self.assertRaises(ValidationError) as ctx:
+            item.full_clean()
+        self.assertIn("price", ctx.exception.message_dict)
 
     def test_defaults(self):
         """Текст, описание и главное фото по умолчанию пустые."""
@@ -168,7 +212,12 @@ class ItemModelTests(TestCase):
 
     def test_text_longer_than_150_is_invalid(self):
         """Текст длиннее 150 символов не проходит валидацию."""
-        item = Item(name="Long", category=self.category, text="x" * 151)
+        item = Item(
+            name="Long",
+            category=self.category,
+            price=PRICE,
+            text="x" * 151,
+        )
         with self.assertRaises(ValidationError) as ctx:
             item.full_clean()
         self.assertIn("text", ctx.exception.message_dict)
@@ -177,7 +226,7 @@ class ItemModelTests(TestCase):
         """Нельзя создать товар без категории."""
         with self.assertRaises(IntegrityError):
             with transaction.atomic():
-                Item.objects.create(name="No category")
+                Item.objects.create(name="No category", price=PRICE)
 
     def test_related_name_items_on_category(self):
         """Товары категории доступны через category.items."""
@@ -220,7 +269,7 @@ class ItemIntModelTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         category = Category.objects.create(name="Cat")
-        cls.item = Item.objects.create(name="Thing", category=category)
+        cls.item = Item.objects.create(name="Thing", category=category, price=PRICE)
 
     def test_default_stock_is_zero(self):
         """Количество товара по умолчанию равно нулю."""
@@ -255,7 +304,7 @@ class ItemImageModelTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         category = Category.objects.create(name="Cat")
-        cls.item = Item.objects.create(name="Thing", category=category)
+        cls.item = Item.objects.create(name="Thing", category=category, price=PRICE)
 
     @classmethod
     def tearDownClass(cls):

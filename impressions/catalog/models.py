@@ -24,6 +24,7 @@ class Category(BaseModelIsPublished):
     def __str__(self):
         return self.name[:15]
 
+
 class Tag(BaseModelIsPublished):
     name = models.CharField("Название", max_length=150, unique=True)
     slug = models.SlugField("Слаг", max_length=150, blank=True, unique=True)
