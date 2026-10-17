@@ -12,5 +12,6 @@ su:
 
 test:
 	cd impressions && python manage.py test
-b:
-	black .
+
+test2:
+	cd impressions && python manage.py test -v 2
