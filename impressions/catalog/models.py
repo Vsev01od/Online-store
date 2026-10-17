@@ -21,6 +21,8 @@ class Category(BaseModelIsPublished):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
+    def __str__(self):
+        return self.name[:15]
 
 class Tag(BaseModelIsPublished):
     name = models.CharField("Название", max_length=150, unique=True)
@@ -34,6 +36,9 @@ class Tag(BaseModelIsPublished):
     class Meta:
         verbose_name = "Тег"
         verbose_name_plural = "Теги"
+
+    def __str__(self):
+        return self.name[:15]
 
 
 class ItemInt(models.Model):
@@ -49,6 +54,7 @@ class ItemInt(models.Model):
 class Item(BaseModelIsPublished):
     name = models.CharField("Название", max_length=150, unique=True)
     slug = models.SlugField("Слаг", max_length=150, blank=True, unique=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     text = models.TextField(
         "Описание",
         validators=[

@@ -1,32 +1,36 @@
 from django.contrib import admin
+from .models import Category, Item, ItemImage, Tag
 
-import catalog.models
-
-
-@admin.register(catalog.models.Item)
+class ItemImageInline(admin.TabularInline):
+    model = ItemImage
+    extra = 1
 class ItemAdmin(admin.ModelAdmin):
-    # Все что мы отображаем
-    list_display = [
-        "name",
-        "is_published",
-    ]
+    #видим заходя на каталог наших продуктов
+    list_display = ["name", "category", "price"]
 
-    # Все что мы можем сразу редактировать
-    list_editable = ("is_published",)
+    #по каким полям фильтрация
+    list_filter = ["category"]
 
-    # Элименты отображающиеся как ссылки
-    list_display_links = ("name",)
+    #по каким полям поиск
+    search_fields = ["name", "description"]
+
+    #позволяет заполнять параметры из тех параметров которые у нас уже есть
+    prepopulated_fields = {"slug":("name",)}
 
 
-@admin.register(catalog.models.Category)
+    inlines = [ItemImageInline]
+
+
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = [
-        "name",
-    ]
+    list_display = ["name", "slug"]
+    prepopulated_fields = {"slug":("name",)}
 
 
-@admin.register(catalog.models.Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = [
-        "name",
-    ]
+    list_display = ["name", "slug"]
+    prepopulated_fields = {"slug":("name",)}
+
+
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Tag, TagAdmin)
+admin.site.register(Item, ItemAdmin)
