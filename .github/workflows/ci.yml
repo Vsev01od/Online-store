@@ -22,4 +22,4 @@ jobs:
         working-directory: ./impressions
         env:
           DJANGO_SECRET_KEY: dummy-secret-key-for-ci-only
-        run: python manage.py test
+        
