@@ -1,21 +1,21 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
+from django.utils.text import slugify
 
 from catalog.validators import validators_item
 from base_model.models import BaseModelIsPublished
 
+from django.utils import timezone
+
 
 class Category(BaseModelIsPublished):
-    name = models.CharField("Название", unique=True)
+    name = models.CharField("Название", max_length=150, unique=True)
+    slug = models.SlugField("Слаг", max_length=150, blank=True, unique=True)
 
-    slug = models.CharField(
-        "Слаг",
-        validators=[
-            MaxLengthValidator(150),
-        ],
-        default="",
-        blank=True,
-    )
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Категория"
@@ -23,39 +23,32 @@ class Category(BaseModelIsPublished):
 
 
 class Tag(BaseModelIsPublished):
-    name = models.CharField(
-        "Имя",
-        validators=[
-            MinLengthValidator(2),
-        ],
-        help_text="Имя должнобыть больше, чем из 2х букв",
-        # Уникальность
-        unique=True,
-    )
+    name = models.CharField("Название", max_length=150, unique=True)
+    slug = models.SlugField("Слаг", max_length=150, blank=True, unique=True)
 
-    slug = models.CharField(
-        "Слаг",
-        validators=[
-            MaxLengthValidator(150),
-        ],
-        default="",
-        blank=True,
-    )
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Тег"
         verbose_name_plural = "Теги"
 
 
-class Item(BaseModelIsPublished):
-    name = models.CharField(
-        "Имя",
-        validators=[
-            MinLengthValidator(2),
-        ],
-        help_text="Имя должнобыть больше, чем из 2х букв",
+class ItemInt(models.Model):
+    item = models.ForeignKey(
+        "Item", on_delete=models.CASCADE, related_name="Количество_товаров"
     )
+    stock = models.PositiveIntegerField(default=0)
 
+    def __str__(self):
+        return f"Количество {self.item.name} равно: {self.stock}"
+
+
+class Item(BaseModelIsPublished):
+    name = models.CharField("Название", max_length=150, unique=True)
+    slug = models.SlugField("Слаг", max_length=150, blank=True, unique=True)
     text = models.TextField(
         "Описание",
         validators=[
@@ -74,6 +67,15 @@ class Item(BaseModelIsPublished):
     )
 
     tags = models.ManyToManyField(Tag)
+    description = models.TextField(blank=True)
+    main_image = models.ImageField(upload_to="items/main", null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Товар"
@@ -82,3 +84,8 @@ class Item(BaseModelIsPublished):
     def __str__(self):
         # Показывает только 15 первых символов
         return self.name[:15]
+
+
+class ItemImage(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="фото")
+    image = models.ImageField(upload_to="items/extra")

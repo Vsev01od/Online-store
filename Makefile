@@ -12,4 +12,5 @@ su:
 
 test:
 	cd impressions && python manage.py test
+b:
 	black .
